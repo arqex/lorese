@@ -1,0 +1,25 @@
+{
+  "name": "lorese",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/cjs/lorese.js",
+  "module": "dist/esm/lorese.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/lorese.js",
+      "require": "./dist/cjs/lorese.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:esm" : "tsc --module es2015 --outDir dist/esm",
+    "build:cjs" : "tsc --module commonjs --outDir dist/cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}
