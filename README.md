@@ -20,6 +20,8 @@ const store = {
 
 // Create our state manager
 const stateManager = Lorese(store);
+
+// We can access to the 3 elements from our stateManager
 const {loader, selector, reducer} = stateManager;
 
 // Selectors will give sense to our store
@@ -32,19 +34,16 @@ const getTodos = selector( store => {
 })
 
 // Use a reducer to update our store
-const onTodosLoaded = selector( (store, todos) => {
-  let ids = [];
-  let allTodos = {...store.todos};
-  todos.forEach( todo => {
+const onTodosLoaded = reducer( (store, todoList) => {
+  let todoIds = [];
+  let todos = {...store.todos};
+  todoList.forEach( todo => {
     ids.push(todo.id);
-    allTodos[todo.id] = todo;
+    todos[todo.id] = todo;
   })
 
   // Return the store updated
-  return {
-    todoIds: ids,
-    todos: allTodos
-  };
+  return { todoIds, todos };
 });
 
 // Create a loader to fetch our todos
@@ -62,4 +61,20 @@ const loadTodos = stateManager.loader({
 // Within your UI you can use the loader declaratively
 const {isLoading, data: todos} = loadTodos();
 isLoading ? renderLoading() : renderTodos(todos);
+```
+
+## Subscribe to changes in the store
+```js
+
+// Once the stateManager is created...
+const stateManager = Lorese(store);
+
+// We should have a method to refresh our UI
+function rerender(){ /* Refresh our UI */ }
+
+// We can listen to changes in the store
+stateManager.addChangeListener( rerender );
+
+// We can stop listening to the changes
+stateManager.removeChangeListener( rerender );
 ```
